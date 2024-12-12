@@ -74,12 +74,12 @@ jobs:
 
       - name: Build application for Apple Silicon architecture
         run: |
-          arch -arm64 pyinstaller --onefile __main__.py --name hello-arm
+          arch -arm64 pyinstaller --onefile __main__.py --name hello_arm
 
       - name: Create Universal Binary
         run: |
           mkdir -p dist/universal
-          lipo -create -output dist/universal/hello_universal.app dist/hello_intel.app dist/hello-arm.app
+          lipo -create -output dist/universal/hello_universal.app dist/hello_intel.app dist/hello_arm.app
 
       - name: Upload macOS Universal .app Artifact
         uses: actions/upload-artifact@v4
