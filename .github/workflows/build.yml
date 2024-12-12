@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -42,7 +42,7 @@ jobs:
           fi
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: hello-executable-${{ matrix.os }}-${{ matrix.python-version }}
         path: dist/hello_world
@@ -57,10 +57,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -73,7 +73,7 @@ jobs:
           pyinstaller --onefile __main__.py -n hello_world  # Use --windowed for GUI apps
 
       - name: Upload macOS .app Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: hello-app-macos-${{ matrix.python-version }}
-          path: dist/hello_world.app
+          path: dist/hello_world
