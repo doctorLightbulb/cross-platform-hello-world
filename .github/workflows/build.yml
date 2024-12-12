@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: [3.12, 3.13]
+        python-version: [3.13]
 
     steps:
     - uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.12, 3.13]
+        python-version: [3.13]
 
     steps:
       - name: Checkout code
@@ -68,12 +68,21 @@ jobs:
         run: |
           pip install pyinstaller
 
-      - name: Build Application for macOS
+      - name: Build application for Intel architecture
         run: |
-          pyinstaller --onefile __main__.py -n hello_world  # Use --windowed for GUI apps
+          pyinstaller --onefile __main__.py --name hello_intel  # Use --windowed for GUI apps
 
-      - name: Upload macOS .app Artifact
+      - name: Build application for Apple Silicon architecture
+        run: |
+          arch -arm64 pyinstaller --onefile __main__.py --name hello-arm
+
+      - name: Create Universal Binary
+        run: |
+          mkdir -p dist/universal
+          lipo -create -output dist/universal/hello_universal.app dist/hello_intel.app dist/hello-arm.app
+
+      - name: Upload macOS Universal .app Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hello-app-macos-${{ matrix.python-version }}
-          path: dist/hello_world
+          name: hello-app-macos-universal-${{ matrix.python-version }}
+          path: dist/universal/hello_universal
