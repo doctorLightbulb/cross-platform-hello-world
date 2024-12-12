@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: hello-executable-${{ matrix.os }}-${{ matrix.python-version }}
-        path: dist/hello
+        path: dist/hello_world
 
   build-macos:
     runs-on: macos-latest
@@ -53,7 +53,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ${{ matrix.python-version }}
+        python-version: [3.12, 3.13]
 
     steps:
       - name: Checkout code
@@ -76,4 +76,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hello-app-macos-${{ matrix.python-version }}
-          path: dist/hello.app
+          path: dist/hello_world.app
