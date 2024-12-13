@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: hello-executable-windows-${{ matrix.python-version }}
-        path: dist/hello_world.exe
+        path: dist/hello_world
 
     - name: Upload Linux artifact
       if: matrix.os == 'ubuntu-latest'
@@ -78,7 +78,7 @@ jobs:
 
       - name: Build application for Intel architecture
         run: |
-          pyinstaller --onefile __main__.py --name hello_intel  # Use --windowed for GUI apps
+          arch -x86_64 pyinstaller --onefile __main__.py --name hello_intel  # Use --windowed for GUI apps
 
       - name: Build application for Apple Silicon architecture
         run: |
