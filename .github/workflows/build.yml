@@ -79,7 +79,7 @@ jobs:
       - name: Create Universal Binary
         run: |
           mkdir -p dist/universal
-          lipo -create -output dist/universal/hello_universal.app dist/hello_intel dist/hello_arm
+          lipo -create -output dist/universal/hello_universal.app dist/hello_intel/hello_intel.app dist/hello_arm/hello_arm.app
 
       - name: Upload macOS Universal .app Artifact
         uses: actions/upload-artifact@v4
