@@ -36,15 +36,23 @@ jobs:
     - name: Build executable for ${{ matrix.os }}
       run: |
           if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-            pyinstaller --onefile __main__.py -n hello_world
+            pyinstaller --onefile __main__.py --name hello_world
           elif [ "${{ matrix.os }}" == "windows-latest" ]; then
-            pyinstaller --onefile __main__.py -n hello_world
+            pyinstaller --onefile __main__.py --name hello_world
           fi
 
-    - name: Upload Artifacts
+    - name: Upload Windows artifact
+      if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: hello-executable-${{ matrix.os }}-${{ matrix.python-version }}
+        name: hello-executable-windows-${{ matrix.python-version }}
+        path: dist/hello_world.exe
+
+    - name: Upload Linux artifact
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: hello-executable-linux-${{ matrix.python-version }}
         path: dist/hello_world
 
   build-macos:
@@ -76,12 +84,16 @@ jobs:
         run: |
           arch -arm64 pyinstaller --onefile __main__.py --name hello_arm
 
-      - name: Create Universal Binary
+      - name: Create universal binary
         run: |
           mkdir -p dist/universal
-          lipo -create -output dist/universal/hello_universal.app dist/hello_intel.app dist/hello_arm.app
+          lipo -create -output dist/universal/hello_universal dist/hello_intel dist/hello_arm
 
-      - name: Upload macOS Universal .app Artifact
+      - name: List dist Directory
+        run: |
+          ls -la dist
+
+      - name: Upload macOS universal .app artifact
         uses: actions/upload-artifact@v4
         with:
           name: hello-app-macos-universal-${{ matrix.python-version }}
