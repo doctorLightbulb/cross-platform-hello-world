@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  build-linux:
+  build:
 
     runs-on: ubuntu-latest
     
@@ -40,13 +40,13 @@ jobs:
 
     - name: Build executable for Ubuntu
       run: |
-        pyinstaller --onefile __main__.py --name hello_world
+        pyinstaller --onefile __main__.py --name hello_world_linux
 
     - name: Upload Ubuntu artifact
       uses: actions/upload-artifact@v4
       with:
         name: hello-executable-${{ runner.os }}
-        path: dist/hello_world
+        path: dist/hello_world_linux
 
   build-windows:
   
@@ -71,13 +71,13 @@ jobs:
           
     - name: Build Windows executable
       run: |      
-        pyinstaller --onefile __main__.py --name hello_world
+        pyinstaller --onefile __main__.py --name hello_world_windows
 
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v4
       with:
-        name: hello-executable-${{ runner.os }}
-        path: dist/hello_world
+        name: hello-executable-${{ runner.os }}-${{ runner.version }}
+        path: dist/hello_world_windows
     
 
   build-macos:
