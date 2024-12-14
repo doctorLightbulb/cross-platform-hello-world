@@ -19,11 +19,11 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     
     strategy:
       matrix:
-        python-version: [3.13]
+        os: [windows-latest, linux-latest]
 
     steps:
     - uses: actions/checkout@v4
@@ -31,54 +31,22 @@ jobs:
     - name: Set up Python, version ${{ matrix.python-version }}.
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.13"
         
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller
+        pip install -r requirements.txt
 
-    - name: Build executable for Ubuntu
+    - name: Build executable
       run: |
-        pyinstaller --onefile __main__.py --name hello_world_linux
+        pyinstaller --onefile __main__.py --name hello_world
 
-    - name: Upload Ubuntu artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: hello-executable-${{ runner.os }}
-        path: dist/hello_world_linux
-
-  build-windows:
-  
-    runs-on: windows-latest
-    
-    strategy:
-      matrix:
-        python-version: [3.13]
-
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python, version ${{ matrix.python-version }}.
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pyinstaller
-          
-    - name: Build Windows executable
-      run: |      
-        pyinstaller --onefile __main__.py --name hello_world_windows
-
-    - name: Upload Windows artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: hello-executable-${{ runner.os }}-${{ runner.version }}
-        path: dist/hello_world_windows
-    
+        path: dist/hello_world
 
   build-macos:
     runs-on: macos-latest
@@ -99,7 +67,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller
+          pip install -r requirements.txt
 
       - name: Build application for Intel architecture
         run: |
@@ -121,5 +89,5 @@ jobs:
       - name: Upload macOS universal .app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hello-app-macos-universal-${{ runner.os }}
+          name: hello-executable-universal-${{ runner.os }}
           path: dist/universal/hello_universal
