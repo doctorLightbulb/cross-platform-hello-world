@@ -29,10 +29,10 @@ Issues = "https://github.com/doctorLightbulb/cross-platform-hello-world/issues"
 dev = ["pyinstaller"]
 
 [project.scripts]
-hello = "hello-world.__main__:main"
+hello = "hello_world.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 
 [tool.setuptools.dynamic]
-version = { attr = "hello-world.__version__" }
+version = { attr = "hello_world.__version__" }
