@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=75.3.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hello-world"
+authors = [{ name = "Joshua Nolan", email = "joshua@joshuanolan.com" }]
+keywords = ["hello world", "cross-platform", "test"]
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/doctorLightbulb/cross-platform-hello-world.git"
+Issues = "https://github.com/doctorLightbulb/cross-platform-hello-world/issues"
+
+[project.optional-dependencies]
+dev = ["pyinstaller"]
+
+[project.scripts]
+hello = "hello-world.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.dynamic]
+version = { attr = "hello-world.__version__" }
