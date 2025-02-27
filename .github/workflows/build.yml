@@ -28,7 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Python, version ${{ matrix.python-version }}.
+    - name: Set up Python, version.
       uses: actions/setup-python@v4
       with:
         python-version: "3.13"
@@ -36,11 +36,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install ".[dev]"
 
     - name: Build executable
       run: |
-        pyinstaller --onefile __main__.py --name hello_world
+        pyinstaller --onefile cli.py --name hello_world
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -67,15 +67,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install ".[dev]"
 
       - name: Build application for Intel architecture
         run: |
-          arch -x86_64 pyinstaller --onefile __main__.py --name hello_intel  # Use --windowed for GUI apps
+          arch -x86_64 pyinstaller --onefile cli.py --name hello_intel  # Use --windowed for GUI apps
 
       - name: Build application for Apple Silicon architecture
         run: |
-          arch -arm64 pyinstaller --onefile __main__.py --name hello_arm
+          arch -arm64 pyinstaller --onefile cli.py --name hello_arm
 
       - name: Create universal binary
         run: |
