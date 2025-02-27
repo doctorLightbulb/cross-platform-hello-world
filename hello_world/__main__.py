@@ -2,6 +2,7 @@
 
 
 def main():
+    """Entry point for `Hello, World!`"""
     print("Hello World!")
 
 
