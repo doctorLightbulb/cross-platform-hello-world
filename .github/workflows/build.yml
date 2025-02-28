@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: hello-executable-${{ runner.os }}
-        path: dist/hello_world
+        path: dist
 
   build-macos:
     runs-on: macos-latest
