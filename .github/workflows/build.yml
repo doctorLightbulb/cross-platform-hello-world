@@ -23,7 +23,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [windows-latest, linux-latest]
+        os: [windows-latest, ubuntu-latest, debian-latest]
 
     steps:
     - uses: actions/checkout@v4
